@@ -90,7 +90,7 @@ const config = {
     open: true
   },
 
-  devtool: 'inline-source-map'
+  devtool: 'cheap-module-source-map'
 
 };
 
