@@ -77,6 +77,20 @@ export class App {
     let requestsArray = this.requestsInfo;
     let sortedArray = $(requestsArray).filter(function (i, n) { return n.type === 'PullRequestEvent' || n.type === 'PullRequestReviewCommentEvent' });
 
+    //ie polyfill for object.entries
+    if (!Object.entries) {
+      Object.entries = function( obj ){
+        var ownProps = Object.keys( obj ),
+            i = ownProps.length,
+            resArray = new Array(i); // preallocate the Array
+        while (i--)
+          resArray[i] = [ownProps[i], obj[ownProps[i]]];
+        
+        return resArray;
+      };
+    }
+
+
     const result = Object.entries(sortedArray).map(([key, value]) => ({ [key]: value }));
     result.pop();
     
