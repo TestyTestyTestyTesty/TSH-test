@@ -4,6 +4,22 @@
 .navbar {
   border-bottom: 1px solid #eee;
   margin-bottom: 8px;
+  height:60px;
+}
+
+.container{
+  padding:20px;
+}
+
+.content{ 
+  display:flex;
+  .avatar{
+    width: 50px;
+    height:auto;
+  }
+  .description{
+    padding:0 5px;
+  }
 }
 
 .gh-username img{
