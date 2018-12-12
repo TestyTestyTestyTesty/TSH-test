@@ -20,7 +20,7 @@ yarn
 
 2. In your browser, navigate to: [http://localhost:2000/](http://localhost:2000/)
 
-## Build production-ready app
+## Build production-ready app | Build size 206KB
 
 ```
 yarn build
