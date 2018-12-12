@@ -47,9 +47,8 @@ export class App {
 
   updateProfile() {
     let profile = document.getElementById("profile-info");
-    let profileTemplateString =`
+    let profileTemplateString = `
     <h2 class="subtitle is-4 ">Profile</h2>
-
     <div class="profile ">
       <div class="media">
         <div class="media-left">
@@ -62,13 +61,12 @@ export class App {
           <p class="subtitle is-6"><a href="${this.profile.html_url}" id="profile-url">@${this.profile.login}</a></p>
         </div>
       </div>
-
-
       <div class="content" id="profile-bio">
         <p>${this.profile.bio || '(no information)'}</p>
       </div>
     </div>`
-    profile.innerHTML = profileTemplateString; 
+    //injecting profile to the dom
+    profile.innerHTML = profileTemplateString;
   }
   updateRequestsInfo() {
     let timeline = document.getElementById("user-timeline");
@@ -79,27 +77,31 @@ export class App {
 
     //ie polyfill for object.entries
     if (!Object.entries) {
-      Object.entries = function( obj ){
-        var ownProps = Object.keys( obj ),
-            i = ownProps.length,
-            resArray = new Array(i); // preallocate the Array
+      Object.entries = function (obj) {
+        var ownProps = Object.keys(obj),
+          i = ownProps.length,
+          resArray = new Array(i); // preallocate the Array
         while (i--)
           resArray[i] = [ownProps[i], obj[ownProps[i]]];
-        
+
         return resArray;
       };
     }
 
-
+    //mapping object to array
     const result = Object.entries(sortedArray).map(([key, value]) => ({ [key]: value }));
     result.pop();
-    
+
+    //generating timeline feed
     result.forEach((element, i) => {
       let date = element[i].created_at.match(datePattern).toString();
       let templateString = "";
+      // i have decided to use switch case instead of just variables, because task.md says: "please take into account that other events will be implemented later."
+      // it can get messy if there would 5 different event types. Code would be illegible.
+      // My solution is longer but clearer
       switch (element[i].type) {
         case "PullRequestEvent":
-            templateString = `
+          templateString = `
             <div class="timeline-item">
             <div class="timeline-marker "></div>
             <div class="timeline-content">
@@ -118,10 +120,10 @@ export class App {
               </div>
             </div>
           </div>`;
-            timelineFeed += templateString;
-            break;
+          timelineFeed += templateString;
+          break;
         case "PullRequestReviewCommentEvent":
-            templateString = `
+          templateString = `
             <div class="timeline-item">
             <div class="timeline-marker "></div>
             <div class="timeline-content">
@@ -141,9 +143,10 @@ export class App {
             </div>
           </div>`;
           timelineFeed += templateString;
-            break;   
-    }
+          break;
+      }
     });
+    //injecting timeline to the dom
     timeline.innerHTML = timelineFeed;
     $('.loader').addClass("is-hidden");
   }
