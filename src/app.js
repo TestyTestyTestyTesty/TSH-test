@@ -27,7 +27,7 @@ export class App {
       let userName = $('.username.input').val();
       axios.get(`https://api.github.com/users/${userName}`)
         .then((response) => {
-          
+          $('.loader').removeClass("is-hidden");
           self.profile = response.data;
           self.updateProfile();
           return axios.get(`https://api.github.com/users/${userName}/events/public?&per_page=100`);
@@ -38,6 +38,7 @@ export class App {
         })
         .catch((error) => {
           console.log("Coś poszło nie tak", error);
+          $('.loader').addClass("is-hidden");
         })
 
     })
@@ -130,5 +131,6 @@ export class App {
     }
     });
     timeline.innerHTML = timelineFeed;
+    $('.loader').addClass("is-hidden");
   }
 }
